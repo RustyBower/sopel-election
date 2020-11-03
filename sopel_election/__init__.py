@@ -263,6 +263,25 @@ def hello_world(bot, trigger):
     if not trigger.group(2):
         r = requests.get(
             'https://www.270towin.com/election-results-live/php/get_presidential_results.php?election_year=2020')
+        data = r.json()
+        bot.say('General Election - '
+                'Donald J. Trump {trump_electoral_votes} - '
+                'Joe Biden {biden_electoral_votes} - '
+                'Electoral Votes Remaining {electoral_votes_remaining} - '
+                'Updated {updated_at}'
+                .format(
+                    trump_electoral_votes=sum([int(v[0]['e_votes']) for k, v in data['seats'].items()
+                                               if k.isdigit()
+                                               if v[0]['winner_party'].lower() in ['r', 'republican']]),
+                    biden_electoral_votes=sum([int(v[0]['e_votes']) for k, v in data['seats'].items()
+                                               if k.isdigit()
+                                               if v[0]['winner_party'].lower() in ['d', 'democrat']]),
+                    electoral_votes_remaining=sum([int(v[0]['e_votes']) for k, v in data['seats'].items()
+                                                   if k.isdigit()
+                                                   if v[0]['winner_party'] == '']),
+                    updated_at=data['updated_at'],
+                ))
+
         return
     else:
         state = trigger.group(2)
