@@ -304,8 +304,8 @@ def hello_world(bot, trigger):
                     state=state,
                     trump_votes=data['candidate-5-votes'],
                     trump_vote_percent=data['candidate-5-vote_percent'],
-                    biden_votes=data['candidate-5-votes'],
-                    biden_vote_percent=data['candidate-5-vote_percent'],
+                    biden_votes=data['candidate-11918-votes'],
+                    biden_vote_percent=data['candidate-11918-vote_percent'],
                     precinct_percent=data['precinct_percent'],
                     updated_at=data['updated_at'],
                 ))
