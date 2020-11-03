@@ -275,12 +275,16 @@ def hello_world(bot, trigger):
                     # Silently error if no state is found
                     if not states.get(k):
                         return NOLIMIT
+                    # Set nicely formatted state for output
+                    state = k
                     presidential_race_id = states.get(k)['presidential_race_id']
         # Otherwise, look up state by full name
         else:
             # Silently error if no state is found
             if not states.get(state.title()):
                 return NOLIMIT
+            # Set nicely formatted state for output
+            state = state.title()
             presidential_race_id = states.get(state.title())['presidential_race_id']
 
         # Get data for race
@@ -292,10 +296,12 @@ def hello_world(bot, trigger):
         # Donald J. Trump 654,321 (69.9%) - Joe Biden 123,456 (12.3%) - 70.1% Reporting - Updated: Nov 03, 2020 12:38pm
         data = r.json()
 
-        bot.say('Donald J. Trump {trump_votes} ({trump_vote_percent}) - '
+        bot.say('{state} - '
+                'Donald J. Trump {trump_votes} ({trump_vote_percent}) - '
                 'Joe Biden {biden_votes} ({biden_vote_percent}) - '
                 '{precinct_percent} - Updated {updated_at}'
                 .format(
+                    state=state,
                     trump_votes=data['candidate-5-votes'],
                     trump_vote_percent=data['candidate-5-vote_percent'],
                     biden_votes=data['candidate-5-votes'],
