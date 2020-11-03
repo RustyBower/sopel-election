@@ -299,7 +299,7 @@ def hello_world(bot, trigger):
         bot.say('{state} - '
                 'Donald J. Trump {trump_votes} ({trump_vote_percent}) - '
                 'Joe Biden {biden_votes} ({biden_vote_percent}) - '
-                '{precinct_percent} - Updated {updated_at}'
+                '{precinct_percent} reporting - Updated {updated_at}'
                 .format(
                     state=state,
                     trump_votes=data['candidate-5-votes'],
