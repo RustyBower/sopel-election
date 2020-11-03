@@ -1,0 +1,24 @@
+language: python
+python:
+- '3.5'
+- '3.6'
+- '3.7'
+- '3.8'
+before_install:
+- pip install git+https://github.com/sopel-irc/sopel.git
+install:
+- pip install -e .
+- pip install -r tests/requirements.txt
+script:
+- pycodestyle --show-source --ignore=E501,E402,E722  ./
+after_success:
+- coveralls
+deploy:
+  provider: pypi
+  user: rustybower
+  password:
+    secure: xf2zBTqqdoDQk+LiLxedMW5JFVWEXr+DwaLtxmBtWMT8aqUO2j3yVVb5dZhphCOvldnm3qEajFzDuyKIbiwzj8mlfH+hc02XTg/lbCKHVgKSJ1tROfkg3AO9GJVQwCbJbbTjIUpiqtLgPm63lE/sP55Fg+unE+E3ifGWD78/a+Ey5CAb46mQmF6Fmhq93LcWetfsB0iVtZNyGDrf6VDC7HKs8JJKJZ8e8bdnSlgJb9fUcJYwvPJzwmh72jYDvrNxcRdTqUjXgtaTQE9KxGOOXuCVX4pwhfaRIhvfGPU94z6N2o5ZPWgdc8um8oZV9IMNPJ0+1mq1t54O2V9j7t8JdgQnvC6t6jN35BYswt29JlwnVf54G0wRgxhDveDc3itBhKX1ZtQMb3ETy0w+8w/E6T8eptc81ejIZ2oTuy8Ft7rXeAncb25US+kW7mwPs8MsNqTiLsxpL8b1y4R5d1of9XHToDvrcYclgN/1K74GNLtxSzqGg509+rfhVZReuJsrRrV+BRqT3XOMmLNEIjWXWdXo8saoYSI6RssBXEXXS+hMfk7SMCScP1QKgo2o9hZCx5CubnT0SEhII090H3NQ5SW8nCjsgwe8HOuJSfyApk2jiLy95AsYv88OZkLhX18FY17ki7NAuB/EM098IbiTIVOS0GFEtHWUvVWtDm6JQrc=
+  on:
+    tags: true
+    python: '3.5'
+  skip_existing: true
