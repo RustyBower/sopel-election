@@ -284,47 +284,50 @@ def hello_world(bot, trigger):
 
         return
     else:
-        state = trigger.group(2)
-        presidential_race_id = None
+        # Allow multi state lookup (AK,AL,CA)
+        for state in trigger.group(2).split(','):
+            # Strip off space in comma split
+            state = state.strip(' ')
+            presidential_race_id = None
 
-        # User provided state short code
-        if len(state) == 2:
-            for k, v in states.items():
-                if state.upper() == v['code']:
-                    # Silently error if no state is found
-                    if not states.get(k):
-                        return NOLIMIT
-                    # Set nicely formatted state for output
-                    state = k
-                    presidential_race_id = states.get(k)['presidential_race_id']
-        # Otherwise, look up state by full name
-        else:
-            # Silently error if no state is found
-            if not states.get(state.title()):
-                return NOLIMIT
-            # Set nicely formatted state for output
-            state = state.title()
-            presidential_race_id = states.get(state.title())['presidential_race_id']
+            # User provided state short code
+            if len(state) == 2:
+                for k, v in states.items():
+                    if state.upper() == v['code']:
+                        # Silently error if no state is found
+                        if not states.get(k):
+                            return NOLIMIT
+                        # Set nicely formatted state for output
+                        state = k
+                        presidential_race_id = states.get(k)['presidential_race_id']
+            # Otherwise, look up state by full name
+            else:
+                # Silently error if no state is found
+                if not states.get(state.title()):
+                    return NOLIMIT
+                # Set nicely formatted state for output
+                state = state.title()
+                presidential_race_id = states.get(state.title())['presidential_race_id']
 
-        # Get data for race
-        r = requests.get(
-            'https://www.270towin.com/election-results-live/php/race_results.php?race_id={presidential_race_id}'
-            .format(presidential_race_id=presidential_race_id)
-        )
+            # Get data for race
+            r = requests.get(
+                'https://www.270towin.com/election-results-live/php/race_results.php?race_id={presidential_race_id}'
+                .format(presidential_race_id=presidential_race_id)
+            )
 
-        # Donald J. Trump 654,321 (69.9%) - Joe Biden 123,456 (12.3%) - 70.1% Reporting - Updated: Nov 03, 2020 12:38pm
-        data = r.json()
+            # Donald J. Trump 654,321 (69.9%) - Joe Biden 123,456 (12.3%) - 70.1% Reporting - Updated: Nov 03, 2020 12:38pm
+            data = r.json()
 
-        bot.say('{state} - '
-                'Donald J. Trump {trump_votes} ({trump_vote_percent}) - '
-                'Joe Biden {biden_votes} ({biden_vote_percent}) - '
-                '{precinct_percent} reporting - Updated {updated_at}'
-                .format(
-                    state=state,
-                    trump_votes=data['candidate-5-votes'],
-                    trump_vote_percent=data['candidate-5-vote_percent'],
-                    biden_votes=data['candidate-11918-votes'],
-                    biden_vote_percent=data['candidate-11918-vote_percent'],
-                    precinct_percent=data['precinct_percent'],
-                    updated_at=data['updated_at'],
-                ))
+            bot.say('{state} - '
+                    'Donald J. Trump {trump_votes} ({trump_vote_percent}) - '
+                    'Joe Biden {biden_votes} ({biden_vote_percent}) - '
+                    '{precinct_percent} reporting - Updated {updated_at}'
+                    .format(
+                        state=state,
+                        trump_votes=data['candidate-5-votes'],
+                        trump_vote_percent=data['candidate-5-vote_percent'],
+                        biden_votes=data['candidate-11918-votes'],
+                        biden_vote_percent=data['candidate-11918-vote_percent'],
+                        precinct_percent=data['precinct_percent'],
+                        updated_at=data['updated_at'],
+                    ))
