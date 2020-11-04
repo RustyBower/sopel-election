@@ -369,7 +369,7 @@ def hello_world(bot, trigger):
             # Donald J. Trump 654,321 (69.9%) - Joe Biden 123,456 (12.3%) - 70.1% Reporting - Updated: Nov 03, 2020 12:38pm
             data = r.json()
 
-            bot.say('{state} - '
+            bot.say('{state} ({electoral_votes}) - '
                     'Donald J. Trump {trump_votes} ({trump_vote_percent}) - '
                     'Joe Biden {biden_votes} ({biden_vote_percent}) - '
                     '{precinct_percent} reporting - Updated {updated_at}'
