@@ -322,11 +322,9 @@ def hello_world(bot, trigger):
                 'Updated {updated_at}'
                 .format(
                     trump_electoral_votes=sum([int(v[0]['e_votes']) for k, v in data['seats'].items()
-                                               if k.isdigit()
-                                               if v[0]['winner_party'].lower() in ['r', 'republican']]),
+                                               if v[0]['winner_party'] == 'R']),
                     biden_electoral_votes=sum([int(v[0]['e_votes']) for k, v in data['seats'].items()
-                                               if k.isdigit()
-                                               if v[0]['winner_party'].lower() in ['d', 'democrat']]),
+                                               if v[0]['winner_party'] == 'D']),
                     electoral_votes_remaining=sum([int(v[0]['e_votes']) for k, v in data['seats'].items()
                                                    if k.isdigit()
                                                    if v[0]['winner_party'] == '']),
