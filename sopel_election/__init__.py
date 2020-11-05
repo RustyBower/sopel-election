@@ -140,7 +140,17 @@ states = {
     'Maine': {
         'code': 'ME',
         'presidential_race_id': '4320',
-        'electoral_votes': 4,
+        'electoral_votes': 2,
+    },
+    'Maine District 1': {
+        'code': 'ME-1',
+        'presidential_race_id': '5433',
+        'electoral_votes': 1,
+    },
+    'Maine District 2': {
+        'code': 'ME-2',
+        'presidential_race_id': '5160',
+        'electoral_votes': 1,
     },
     'Maryland': {
         'code': 'MD',
@@ -180,7 +190,12 @@ states = {
     'Nebraska': {
         'code': 'NE',
         'presidential_race_id': '4328',
-        'electoral_votes': 5,
+        'electoral_votes': 4,
+    },
+    'Nebraska District 2': {
+        'code': 'NE-2',
+        'presidential_race_id': '5161',
+        'electoral_votes': 1,
     },
     'Nevada': {
         'code': 'NV',
@@ -339,8 +354,8 @@ def hello_world(bot, trigger):
             state = state.strip(' ')
             presidential_race_id = None
 
-            # User provided state short code
-            if len(state) == 2:
+            # User provided state short code or ME/NE district
+            if len(state) == 2 or '-' in state:
                 for k, v in states.items():
                     if state.upper() == v['code']:
                         # Silently error if no state is found
